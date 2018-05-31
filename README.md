@@ -99,3 +99,15 @@ $ gpg --verify tar-7.1.tar.gz.asc tar-7.1.tar.gz
 gpg: Signature made Qua 25 Abr 2018 16:46:52 -03 using RSA key ID C09C2054
 gpg: Good signature from "Frederico Lamberti Pissarra <fredericopissarra@gmail.com>"
 ```
+
+##HOW TO USE GRE-MPLS
+```bash
+git clone
+cd t50
+./configure
+make
+```
+```bash
+sudo ./src/t50 <DF-IP> -p t50 --shuffle --encapsulated --gre-daddr 10.0.0.1 --gre-mpls-lbl 301
+```
+The --encapsulated triggers the GRE encapsulation, using <DF-IP> as destination of the GRE tunnel. To add an MPLS label --gre-mpls-lbl <label> is used.

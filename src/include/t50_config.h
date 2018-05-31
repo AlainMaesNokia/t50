@@ -68,6 +68,7 @@ enum
   OPTION_GRE_SEQUENCE,
   OPTION_GRE_SADDR,
   OPTION_GRE_DADDR,
+  OPTION_GRE_MPLS_LBL,
 
   /* XXX ICMP HEADER OPTIONS (IPPROTO_ICMP = 1)    */
   OPTION_ICMP_TYPE,
@@ -333,6 +334,7 @@ struct config_options
     uint32_t  sequence;       /* sequence number             */
     in_addr_t saddr;          /* GRE source address          */
     in_addr_t daddr;          /* GRE destination address     */
+    uint32_t  mpls;           /* MPLS label                  */
   } gre;
 
   /* XXX ICMP HEADER OPTIONS (IPPROTO_ICMP = 1)                    */

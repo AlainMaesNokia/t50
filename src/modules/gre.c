@@ -30,6 +30,8 @@
 #include <t50_modules.h>
 #include <t50_randomizer.h>
 
+#include <string.h>
+
 /**
  * GRE encapsulation routine.
  *
@@ -80,7 +82,10 @@ struct iphdr *gre_encapsulation(void *buffer,
   gre->recur   = FIELD_MUST_BE_ZERO;
   gre->version = GREVERSION;
   gre->flags   = FIELD_MUST_BE_ZERO;
-  gre->proto   = htons(ETH_P_IP);
+  if (co->gre.mpls)
+      gre->proto   = htons(0x8847);
+  else
+      gre->proto   = htons(ETH_P_IP);
 
   /* Computing the GRE offset. */
   ptr  = gre + 1;
@@ -117,6 +122,29 @@ struct iphdr *gre_encapsulation(void *buffer,
     gre_seq->sequence = __RND(co->gre.sequence);
 
     ptr = gre_seq + 1;
+  }
+
+  /* MPLS label? */
+  if (co->gre.mpls)
+  {
+    /* 0000 0000 0001 0010 1101 */
+    int * mpls = ptr;
+    *mpls = htonl((co->gre.mpls << 12) + (1 << 8) + 0xff);
+    ptr = mpls + 1;
+
+    int *tmp = ptr;
+    *tmp = 0x000102;
+    ptr = tmp+1;
+
+    struct ethhdr* hdr = (struct ethhdr*)ptr;
+    hdr->h_proto = htons(ETH_P_IP);
+    hdr->h_dest[0]=0;
+    hdr->h_dest[1]=0;
+    memcpy(&hdr->h_dest[2], co->gre.daddr ? &co->gre.daddr : &ip->daddr, 4);
+    hdr->h_source[0]=0;
+    hdr->h_source[1]=0;
+    memcpy(&hdr->h_source[2], co->gre.saddr ? &co->gre.saddr : &ip->saddr, 4);
+    ptr = (char *)ptr+14;
   }
 
   /*
@@ -217,6 +245,11 @@ uint32_t gre_opt_len(const struct config_options *const __restrict__ co)
     /* SEQUENCE HEADER? */
     if (co->gre.S)
       size += GRE_OPTLEN_SEQUENCE;
+
+    if (co->gre.mpls)
+    {
+      size += 22;
+    }
   }
 
   return size;

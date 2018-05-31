@@ -1,2 +1,16 @@
 autom4te.cache
 *.tar.gz
+*.o
+Makefile
+config.log
+config.status
+src/.deps/
+src/Makefile
+src/help/.deps/
+src/help/.dirstamp
+src/include/configuration.h
+src/include/stamp-h1
+src/modules/.deps/
+src/modules/.dirstamp
+src/t50
+

@@ -185,6 +185,7 @@ static struct options_table_s options[] =
   { OPTION_GRE_SEQUENCE,          0,    "gre-sequence",     1 },
   { OPTION_GRE_SADDR,             0,    "gre-saddr",        1 },
   { OPTION_GRE_DADDR,             0,    "gre-daddr",        1 },
+  { OPTION_GRE_MPLS_LBL,          0,    "gre-mpls-lbl",     1 },
 
   /* XXX DCCP, TCP & UDP HEADER OPTIONS */
   { OPTION_SOURCE,                0,    "sport",            1 },
@@ -797,6 +798,10 @@ void set_config_option(struct config_options *__restrict__ co, char *optname, in
   case OPTION_GRE_DADDR:
     check_list_separators(optname, arg);
     co->gre.daddr = resolv(arg);
+    break;
+
+  case OPTION_GRE_MPLS_LBL:
+    co->gre.mpls = toULong(optname, arg);
     break;
 
   case OPTION_IP_TOS:

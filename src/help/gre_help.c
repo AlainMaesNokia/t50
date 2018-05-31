@@ -32,6 +32,7 @@ void gre_help(void)
        "    --gre-key NUM             GRE key                          (default RANDOM)\n"
        "    --gre-sequence NUM        GRE sequence #                   (default RANDOM)\n"
        "    --gre-saddr ADDR          GRE IP source IP address         (default RANDOM)\n"
-       "    --gre-daddr ADDR          GRE IP destination IP address    (default RANDOM)\n");
+       "    --gre-daddr ADDR          GRE IP destination IP address    (default RANDOM)\n"
+       "    --gre-mpls-lbl LABEL      GRE MPLS VC label                (default OFF)\n");
 }
 
