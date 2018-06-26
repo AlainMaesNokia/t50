@@ -132,9 +132,9 @@ struct iphdr *gre_encapsulation(void *buffer,
     *mpls = htonl((co->gre.mpls << 12) + (1 << 8) + 0xff);
     ptr = mpls + 1;
 
-    int *tmp = ptr;
-    *tmp = 0x000102;
-    ptr = tmp+1;
+    //int *tmp = ptr;
+    //*tmp = 0x000102;
+    //ptr = tmp+1;
 
     struct ethhdr* hdr = (struct ethhdr*)ptr;
     hdr->h_proto = htons(ETH_P_IP);
